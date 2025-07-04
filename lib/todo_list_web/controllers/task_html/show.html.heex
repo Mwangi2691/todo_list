@@ -1,0 +1,19 @@
+<.header>
+  Task {@task.id}
+  <:subtitle>This is a task record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/tasks/#{@task}/edit"}>
+      <.button>Edit task</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Task name">{@task.task_name}</:item>
+  <:item title="Task description">{@task.task_description}</:item>
+  <:item title="Start date">{@task.start_date}</:item>
+  <:item title="End date">{@task.end_date}</:item>
+  <:item title="Status">{@task.status}</:item>
+</.list>
+
+<.back navigate={~p"/tasks"}>Back to tasks</.back>
