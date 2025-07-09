@@ -8,6 +8,11 @@ defmodule TodoList.Tasks.Task do
     field :task_description, :string
     field :start_date, :date
     field :end_date, :date
+    # other fields...
+
+  belongs_to :user, TodoList.Accounts.User
+
+
 
     timestamps(type: :utc_datetime)
   end

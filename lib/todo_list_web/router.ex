@@ -21,7 +21,7 @@ defmodule TodoListWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-     resources "/tasks", TaskController
+    resources "/tasks", TaskController
   end
 
   # Other scopes may use custom stacks.
@@ -60,7 +60,6 @@ defmodule TodoListWeb.Router do
     end
 
     post "/users/log_in", UserSessionController, :create
-
   end
 
   scope "/", TodoListWeb do

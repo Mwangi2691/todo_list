@@ -8,7 +8,13 @@ defmodule TodoList.TasksTest do
 
     import TodoList.TasksFixtures
 
-    @invalid_attrs %{status: nil, task_name: nil, task_description: nil, start_date: nil, end_date: nil}
+    @invalid_attrs %{
+      status: nil,
+      task_name: nil,
+      task_description: nil,
+      start_date: nil,
+      end_date: nil
+    }
 
     test "list_tasks/0 returns all tasks" do
       task = task_fixture()
@@ -21,7 +27,13 @@ defmodule TodoList.TasksTest do
     end
 
     test "create_task/1 with valid data creates a task" do
-      valid_attrs = %{status: true, task_name: "some task_name", task_description: "some task_description", start_date: ~D[2025-07-03], end_date: ~D[2025-07-03]}
+      valid_attrs = %{
+        status: true,
+        task_name: "some task_name",
+        task_description: "some task_description",
+        start_date: ~D[2025-07-03],
+        end_date: ~D[2025-07-03]
+      }
 
       assert {:ok, %Task{} = task} = Tasks.create_task(valid_attrs)
       assert task.status == true
@@ -37,7 +49,14 @@ defmodule TodoList.TasksTest do
 
     test "update_task/2 with valid data updates the task" do
       task = task_fixture()
-      update_attrs = %{status: false, task_name: "some updated task_name", task_description: "some updated task_description", start_date: ~D[2025-07-04], end_date: ~D[2025-07-04]}
+
+      update_attrs = %{
+        status: false,
+        task_name: "some updated task_name",
+        task_description: "some updated task_description",
+        start_date: ~D[2025-07-04],
+        end_date: ~D[2025-07-04]
+      }
 
       assert {:ok, %Task{} = task} = Tasks.update_task(task, update_attrs)
       assert task.status == false

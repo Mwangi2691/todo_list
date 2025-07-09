@@ -5,16 +5,19 @@ defmodule TodoListWeb.TaskController do
   alias TodoList.Tasks.Task
 
   def index(conn, _params) do
-    tasks = Tasks.list_tasks()
-    render(conn, :index, tasks: tasks)
-  end
+  current_user = conn.assigns.current_user
+  tasks = Tasks.list_tasks_for_user(current_user.id)
+  render(conn, :index, tasks: tasks)
+end
 
-  def new(conn, _params) do
+
+
+def new(conn, _params) do
     changeset = Tasks.change_task(%Task{})
     render(conn, :new, changeset: changeset)
   end
 
-  def create(conn, %{"task" => task_params}) do
+def create(conn, %{"task" => task_params}) do
     case Tasks.create_task(task_params) do
       {:ok, task} ->
         conn

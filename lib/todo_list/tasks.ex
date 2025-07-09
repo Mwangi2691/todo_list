@@ -17,9 +17,12 @@ defmodule TodoList.Tasks do
       [%Task{}, ...]
 
   """
-  def list_tasks do
-    Repo.all(Task)
-  end
+  def list_tasks_for_user(user_id) do
+  Task
+  |> where([t], t.user_id == ^user_id)
+  |> Repo.all()
+end
+
 
   @doc """
   Gets a single task.

@@ -11,7 +11,7 @@ defmodule TodoList.Repo.Migrations.CreateTasks do
       add :user_id, references(:users, on_delete: :delete_all), null: false
       timestamps(type: :utc_datetime)
     end
-      create index(:tasks, [:user_id, :task_name], unique: true)
 
+    create index(:tasks, [:user_id, :task_name], unique: true)
   end
 end

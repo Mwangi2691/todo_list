@@ -3,9 +3,27 @@ defmodule TodoListWeb.TaskControllerTest do
 
   import TodoList.TasksFixtures
 
-  @create_attrs %{status: true, task_name: "some task_name", task_description: "some task_description", start_date: ~D[2025-07-03], end_date: ~D[2025-07-03]}
-  @update_attrs %{status: false, task_name: "some updated task_name", task_description: "some updated task_description", start_date: ~D[2025-07-04], end_date: ~D[2025-07-04]}
-  @invalid_attrs %{status: nil, task_name: nil, task_description: nil, start_date: nil, end_date: nil}
+  @create_attrs %{
+    status: true,
+    task_name: "some task_name",
+    task_description: "some task_description",
+    start_date: ~D[2025-07-03],
+    end_date: ~D[2025-07-03]
+  }
+  @update_attrs %{
+    status: false,
+    task_name: "some updated task_name",
+    task_description: "some updated task_description",
+    start_date: ~D[2025-07-04],
+    end_date: ~D[2025-07-04]
+  }
+  @invalid_attrs %{
+    status: nil,
+    task_name: nil,
+    task_description: nil,
+    start_date: nil,
+    end_date: nil
+  }
 
   describe "index" do
     test "lists all tasks", %{conn: conn} do
