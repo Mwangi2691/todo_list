@@ -3,6 +3,7 @@ defmodule TodoList.Tasks.Task do
   import Ecto.Changeset
 
   schema "tasks" do
+    field :first_name, :string
     field :status, :boolean, default: false
     field :task_name, :string
     field :task_description, :string
