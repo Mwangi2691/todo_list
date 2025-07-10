@@ -22,8 +22,9 @@ defmodule TodoList.Tasks.Task do
   @doc false
 def changeset(task, attrs) do
   task
-  |> cast(attrs, [:task_name, :task_description, :priority, :start_date, :end_date, :status, :user_id, ] )
-  |> validate_required([:task_name, :start_date, :end_date, :user_id,:priority])
+  |> cast(attrs, [:task_name, :task_description, :priority, :start_date, :end_date, :status, :user_id])
+  |> validate_required([:task_name, :priority, :start_date, :end_date, :status, :user_id])
 end
+
 
 end

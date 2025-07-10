@@ -2,15 +2,14 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:task_name]} type="text" label="Task name" />
-
-  <.input field={f[:Priority]} type="text" label="Task priority" />
 
   <.input field={f[:task_name]} type="text" label="Task name" />
+  <.input field={f[:priority]} type="select" options={["low", "normal", "high"]} label="Task priority" />
   <.input field={f[:task_description]} type="text" label="Task description" />
   <.input field={f[:start_date]} type="date" label="Start date" />
   <.input field={f[:end_date]} type="date" label="End date" />
   <.input field={f[:status]} type="checkbox" label="Status" />
+
   <:actions>
     <.button>Save Task</.button>
   </:actions>
