@@ -3,7 +3,7 @@ defmodule TodoList.Tasks.Task do
   import Ecto.Changeset
 
   schema "tasks" do
-    field :first_name, :string
+
     field :status, :boolean, default: false
     field :task_name, :string
     field :task_description, :string
@@ -22,8 +22,8 @@ defmodule TodoList.Tasks.Task do
   @doc false
 def changeset(task, attrs) do
   task
-  |> cast(attrs, [:task_name, :task_description, :priority, :start_date, :end_date, :status, :user_id, :first_name] )
-  |> validate_required([:task_name, :start_date, :end_date, :user_id, :first_name ,:priority])
+  |> cast(attrs, [:task_name, :task_description, :priority, :start_date, :end_date, :status, :user_id, ] )
+  |> validate_required([:task_name, :start_date, :end_date, :user_id,:priority])
 end
 
 end
