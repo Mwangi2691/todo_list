@@ -18,16 +18,24 @@ def new(conn, _params) do
   end
 
 def create(conn, %{"task" => task_params}) do
-    case Tasks.create_task(task_params) do
-      {:ok, task} ->
-        conn
-        |> put_flash(:info, "Task created successfully.")
-        |> redirect(to: ~p"/tasks/#{task}")
+  current_user = conn.assigns[:current_user] || conn.assigns.current_user
+  IO.inspect(current_user, label: "Current user in create")
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
-    end
+  # Inject user_id into the params
+  task_params = Map.put(task_params, "user_id", current_user.id)
+
+  case Tasks.create_task(task_params) do
+    {:ok, task} ->
+      conn
+      |> put_flash(:info, "Task created successfully.")
+      |> redirect(to: ~p"/tasks/#{task}")
+
+    {:error, %Ecto.Changeset{} = changeset} ->
+      render(conn, :new, changeset: changeset)
   end
+end
+
+
 
   def show(conn, %{"id" => id}) do
     task = Tasks.get_task!(id)

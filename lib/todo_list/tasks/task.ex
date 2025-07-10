@@ -18,9 +18,10 @@ defmodule TodoList.Tasks.Task do
   end
 
   @doc false
-  def changeset(task, attrs) do
-    task
-    |> cast(attrs, [:task_name, :task_description, :start_date, :end_date, :status])
-    |> validate_required([:task_name, :task_description, :start_date, :end_date, :status])
-  end
+def changeset(task, attrs) do
+  task
+  |> cast(attrs, [:task_name, :task_description, :start_date, :end_date, :status, :user_id])
+  |> validate_required([:task_name, :start_date, :end_date, :user_id])
+end
+
 end
