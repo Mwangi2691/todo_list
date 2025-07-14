@@ -3,43 +3,68 @@ defmodule TodoListWeb.TaskController do
 
   alias TodoList.Tasks
   alias TodoList.Tasks.Task
+  alias TodoList.Tasks.Comment
+
+  plug :require_logged_in_user when action in [:index, :new, :create, :edit, :update, :delete, :show, :create_comment]
+
+  defp require_logged_in_user(conn, _opts) do
+    if conn.assigns[:current_user] do
+      conn
+    else
+      conn
+      |> put_flash(:error, "Please log in to continue.")
+      |> redirect(to: ~p"/users/log_in")
+      |> halt()
+    end
+  end
 
   def index(conn, _params) do
-  current_user = conn.assigns.current_user
-  tasks = Tasks.list_tasks_for_user(current_user.id)
-  render(conn, :index, tasks: tasks)
-end
+    current_user = conn.assigns.current_user
+    tasks = Tasks.list_tasks_for_user(current_user.id)
+    render(conn, :index, tasks: tasks)
+  end
 
-
-
-def new(conn, _params) do
+  def new(conn, _params) do
     changeset = Tasks.change_task(%Task{})
     render(conn, :new, changeset: changeset)
   end
 
-def create(conn, %{"task" => task_params}) do
-  current_user = conn.assigns[:current_user] || conn.assigns.current_user
-  IO.inspect(current_user, label: "Current user in create")
+  def create(conn, %{"task" => task_params}) do
+    current_user = conn.assigns.current_user
+    task_params = Map.put(task_params, "user_id", current_user.id)
 
-  # Inject user_id into the params
-  task_params = Map.put(task_params, "user_id", current_user.id)
+    case Tasks.create_task(task_params) do
+      {:ok, task} ->
+        conn
+        |> put_flash(:info, "Task created successfully.")
+        |> redirect(to: ~p"/tasks/#{task}")
 
-  case Tasks.create_task(task_params) do
-    {:ok, task} ->
-      conn
-      |> put_flash(:info, "Task created successfully.")
-      |> redirect(to: ~p"/tasks/#{task}")
-
-    {:error, %Ecto.Changeset{} = changeset} ->
-      render(conn, :new, changeset: changeset)
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, :new, changeset: changeset)
+    end
   end
+
+ def show(conn, %{"id" => id}) do
+  task = Tasks.get_task_with_comments!(id)
+  comment_changeset = Tasks.change_comment(%TodoList.Tasks.Comment{})
+  render(conn, :show, task: task, comment_changeset: comment_changeset)
 end
 
 
 
-  def show(conn, %{"id" => id}) do
-    task = Tasks.get_task!(id)
-    render(conn, :show, task: task)
+  def create_comment(conn, %{"task_id" => task_id, "comment" => comment_params}) do
+    comment_params = Map.put(comment_params, "task_id", task_id)
+
+    case Tasks.create_comment(comment_params) do
+      {:ok, _comment} ->
+        conn
+        |> put_flash(:info, "Comment added.")
+        |> redirect(to: ~p"/tasks/#{task_id}")
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        task = Tasks.get_task_with_comments!(task_id)
+        render(conn, :show, task: task, comment_changeset: changeset)
+    end
   end
 
   def edit(conn, %{"id" => id}) do

@@ -21,7 +21,10 @@ defmodule TodoListWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-    resources "/tasks", TaskController
+    resources "/tasks", TaskController do
+  post "/comments", TaskController, :create_comment
+end
+
   end
 
   # Other scopes may use custom stacks.

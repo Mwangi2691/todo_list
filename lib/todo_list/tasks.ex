@@ -7,6 +7,28 @@ defmodule TodoList.Tasks do
   alias TodoList.Repo
 
   alias TodoList.Tasks.Task
+  # Add at the top:
+alias TodoList.Tasks.{Comment, Task}
+
+# Fetch task with comments
+def get_task_with_comments!(id) do
+  Task
+  |> Repo.get!(id)
+  |> Repo.preload(:comments)
+end
+
+# Create comment
+def create_comment(attrs) do
+  %Comment{}
+  |> Comment.changeset(attrs)
+  |> Repo.insert()
+end
+
+# Changeset for new comment
+def change_comment(%Comment{} = comment) do
+  Comment.changeset(comment, %{})
+end
+
 
   @doc """
   Returns the list of tasks.

@@ -1,5 +1,5 @@
 <.header>
-  Task {@task.id}
+  Task #{@task.id}
   <:subtitle>This is a task record from your database.</:subtitle>
   <:actions>
     <.link href={~p"/tasks/#{@task}/edit"}>
@@ -9,13 +9,42 @@
 </.header>
 
 <.list>
-
-  <:item title="Task name">{@task.task_name}</:item>
-   <:item title="Priority">{@task.priority}</:item>
-  <:item title="Task description">{@task.task_description}</:item>
-  <:item title="Start date">{@task.start_date}</:item>
-  <:item title="End date">{@task.end_date}</:item>
-  <:item title="Status">{@task.status}</:item>
+  <:item title="Task name"><%= @task.task_name %></:item>
+  <:item title="Priority"><%= @task.priority %></:item>
+  <:item title="Task description"><%= @task.task_description %></:item>
+  <:item title="Start date"><%= @task.start_date %></:item>
+  <:item title="End date"><%= @task.end_date %></:item>
+  <:item title="Status"><%= if @task.status, do: "Completed", else: "Pending" %></:item>
 </.list>
 
-<.back navigate={~p"/tasks"}>Back to tasks</.back>
+<hr class="my-6" />
+
+<h2 class="text-lg font-semibold mb-3">Comments</h2>
+
+<%= if Enum.empty?(@task.comments) do %>
+  <p class="text-gray-500">No comments yet.</p>
+<% else %>
+  <ul class="mb-6 space-y-2">
+    <%= for comment <- @task.comments do %>
+      <li class="border p-3 rounded bg-gray-100">
+        <%= comment.comment_text %>
+        <div class="text-xs text-gray-500 mt-1">
+          Posted at <%= NaiveDateTime.to_string(comment.inserted_at) %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<h3 class="text-base font-medium mb-2">Add a Comment</h3>
+
+<.form :let={f} for={@comment_changeset} action={~p"/tasks/#{@task.id}/comments"} method="post">
+  <.input field={f[:comment_text]} type="text" label="Your comment" />
+
+  <!-- Hidden field must be rendered manually, because CoreComponents.input doesn't support type="hidden" -->
+  <input type="hidden" name="comment[task_id]" value={@task.id} />
+
+  <.button class="mt-2">Post Comment</.button>
+</.form>
+
+<.back navigate={~p"/tasks"}>Back to task list</.back>
