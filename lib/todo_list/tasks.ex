@@ -7,10 +7,10 @@ defmodule TodoList.Tasks do
   alias TodoList.Repo
 
   alias TodoList.Tasks.Task
-  # Add at the top:
+
 alias TodoList.Tasks.{Comment, Task}
 
-# Fetch task with comments
+# Fetching task with comments
 def get_task_with_comments!(id) do
   Task
   |> Repo.get!(id)

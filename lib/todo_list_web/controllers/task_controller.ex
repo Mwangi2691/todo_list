@@ -3,7 +3,7 @@ defmodule TodoListWeb.TaskController do
 
   alias TodoList.Tasks
   alias TodoList.Tasks.Task
-  alias TodoList.Tasks.Comment
+
 
   plug :require_logged_in_user when action in [:index, :new, :create, :edit, :update, :delete, :show, :create_comment]
 
