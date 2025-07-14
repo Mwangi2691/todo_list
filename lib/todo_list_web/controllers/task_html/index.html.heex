@@ -15,15 +15,16 @@
   <:col :let={task} label="Start date">{task.start_date}</:col>
   <:col :let={task} label="End date">{task.end_date}</:col>
   <:col :let={task} label="Status">{task.status}</:col>
-  <:action :let={task}>
-    <div class="sr-only">
-      <.link navigate={~p"/tasks/#{task}"}>Show</.link>
-    </div>
-    <.link navigate={~p"/tasks/#{task}/edit"}>Edit</.link>
-  </:action>
-  <:action :let={task}>
-    <.link href={~p"/tasks/#{task}"} method="delete" data-confirm="Are you sure?">
-      Delete
-    </.link>
-  </:action>
+   <:col :let={task} label="">{task.status}</:col>
+<:action :let={task}>
+  <.link navigate={~p"/tasks/#{task}"}>View Task</.link>
+  &nbsp;&nbsp;
+  <.link navigate={~p"/tasks/#{task}/edit"}>Edit</.link>
+  &nbsp;&nbsp;
+  <.link href={~p"/tasks/#{task}"} method="delete" data-confirm="Are you sure?">Delete</.link>
+</:action>
+
+
+
+
 </.table>
